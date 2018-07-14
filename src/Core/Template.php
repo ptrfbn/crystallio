@@ -11,7 +11,7 @@ class Template
         $view_class = 'Templates\\' . $template . '\\View';
 
         $model = new $model_class();
-        $controller = new $controller_class();
+        $controller = new $controller_class($model);
         $view = new $view_class($model);
 
         echo $view->output();
