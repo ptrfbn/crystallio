@@ -17,8 +17,13 @@ class Router
         foreach (self::$routes[$request_method] as $route) {
             if ($parsed_url === $route['url']) {
                 $route['callback']();
+
+                return;
             }
         }
+
+        self::redirect('/404');
+
     }
 
     public static function get($url, $callback)
@@ -33,6 +38,12 @@ class Router
             'callback' => $callback,
         );
 
+    }
+
+    public static function redirect($url)
+    {
+        header('Location: ' . $url);
+        exit;
     }
 
 }
