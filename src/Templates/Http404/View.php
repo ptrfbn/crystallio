@@ -10,6 +10,8 @@ class View extends BaseView
     {
         parent::__construct($model);
 
-        $this->renderHtml('Site not found!');
+        $this->render('common/header');
+        $this->render('404');
+        $this->render('common/footer');
     }
 }
