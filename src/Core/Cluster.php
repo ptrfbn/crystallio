@@ -6,7 +6,8 @@ class Cluster
 {
     public static function init()
     {
-        echo 'initialized';
+        require ROOT_DIR . 'src/routes.php';
 
+        Router::start();
     }
 }
