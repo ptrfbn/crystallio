@@ -2,11 +2,12 @@
 
 namespace Templates\Http404;
 
-class View
-{
-    public function output()
-    {
-        return 'site not found';
-    }
+use Core\View as BaseView;
 
+class View extends BaseView
+{
+    public function __construct()
+    {
+        $this->renderHtml('Site not found!');
+    }
 }
