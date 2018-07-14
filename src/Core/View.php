@@ -16,6 +16,8 @@ class View
         $this->addCssAsset('plugins/bootstrap/bootstrap.min');
         $this->addCssAsset('default');
 
+        $this->addJsAsset('plugins/jquery/jquery.min');
+        $this->addJsAsset('plugins/popper/popper.min');
         $this->addJsAsset('plugins/bootstrap/bootstrap.min');
     }
 

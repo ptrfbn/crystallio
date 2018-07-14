@@ -1,6 +1,12 @@
 Options -Indexes
 RewriteEngine on
+
 RedirectMatch 403 ^/src/.*$
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l
