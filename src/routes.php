@@ -1,7 +1,8 @@
 <?php
 
 use Core\Router;
+use Core\Template;
 
 Router::get('/', function () {
-    echo 'hello world';
+    Template::load('Index');
 });
