@@ -4,6 +4,7 @@ namespace Core;
 
 class View
 {
+    protected $model;
     protected $css_assets = array();
     protected $js_assets = array();
 
@@ -11,8 +12,10 @@ class View
 
     protected $title;
 
-    protected function __construct()
+    protected function __construct($model)
     {
+        $this->model = $model;
+
         $this->addCssAsset('plugins/bootstrap/bootstrap.min');
         $this->addCssAsset('default');
 
