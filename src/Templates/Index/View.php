@@ -10,8 +10,10 @@ class View extends BaseView
     {
         parent::__construct($model);
 
+        $this->addJsAsset('pages/index');
+
         $this->render('common/header');
-        $this->renderHtml('Hello world');
+        $this->render('index');
         $this->render('common/footer');
     }
 }

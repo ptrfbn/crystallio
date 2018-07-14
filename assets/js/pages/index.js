@@ -1,0 +1,5 @@
+var words = [];
+
+$(function () {
+
+});

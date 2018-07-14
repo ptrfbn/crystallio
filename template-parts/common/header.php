@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?=$this->getTitle();?></title>
 <?php foreach ($this->getCssAssets() as $css_asset): ?>
     <link rel="stylesheet" type="text/css" href="/assets/css/<?=$css_asset?>.css">
@@ -32,3 +33,4 @@
         </div>
     </div>
 </nav>
+
