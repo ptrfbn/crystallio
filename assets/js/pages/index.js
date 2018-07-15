@@ -22,6 +22,8 @@ $(function () {
         var rawText = $(this).html();
         if (['.', '!', '?', ','].indexOf(rawText.slice(-1)) !== -1
             || ['&nbsp;'].indexOf(rawText.slice(-6)) !== -1) {
+            clearTimeout(crystallizeTimeout);
+            crystallizeTimeout = null;
             crystallizer(rawText);
         } else {
             crystallizerThrottle(rawText);
