@@ -1,11 +1,14 @@
 var onAjax = new Event('onAjax');
 var afterAjax = new Event('afterAjax');
+var ajaxInProgress = false;
 
 window.addEventListener('onAjax', function () {
+    ajaxInProgress = true;
     $('.navbar .navbar-brand .logo').addClass('spin');
 });
 
 window.addEventListener('afterAjax', function () {
+    ajaxInProgress = false;
     $('.navbar .navbar-brand .logo').removeClass('spin');
 });
 
@@ -28,7 +31,9 @@ var crystallizer = function (rawText) {
         }
     });
 
-    crystallizeWords();
+    if (!ajaxInProgress) {
+        crystallizeWords();
+    }
 
 }
 

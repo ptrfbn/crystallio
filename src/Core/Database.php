@@ -102,4 +102,24 @@ class Database
         return $sth->fetchAll();
     }
 
+    public function insert($table, $data)
+    {
+        $data['created'] = date('Y-m-d H:i:s', time());
+        $data['updated'] = date('Y-m-d H:i:s', time());
+
+        $columns = '(`' . implode('`,`', array_keys($data)) . '`)';
+        $values = '(?' . str_repeat(', ?', count($data) - 1) . ')';
+        $params = array_values($data);
+
+        $sql = "
+            INSERT INTO {$table}
+                        {$columns}
+                 VALUES {$values}
+        ";
+
+        $sth = $this->pdo->prepare($sql);
+
+        $sth->execute($params);
+    }
+
 }

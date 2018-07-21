@@ -11,11 +11,38 @@ class Controller extends BaseController
     {
         parent::__construct($model);
 
+        if (!isset($_POST) || !array_key_exists('words', $_POST)) {
+            return;
+        }
+
         $words = $_POST['words'];
+
+        if (!is_array($words) || empty($words)) {
+            return;
+        }
 
         array_map(function ($word) {
             preg_replace('/[^A-Za-zÄÖÜẞäöüß]/', '', $word);
         }, $words);
+
+        $crystal_words = array();
+
+        foreach ($words as $key => $word) {
+            $result = $this->model->checkWhiteList($word);
+            if ($result) {
+                unset($words[$key]);
+                $lemma = $result->lemma;
+                $gender = $result->gender;
+
+                $crystal_words[$lemma] = array(
+                    'lemma' => $lemma,
+                    'word' => $word,
+                    'gender' => $gender,
+                );
+            }
+        }
+
+        // Using crystal api to get the genders
 
         $crystal = new Crystal();
         $chunks = array_chunk($words, 2);
@@ -27,7 +54,6 @@ class Controller extends BaseController
         }
 
         $lemmas = array();
-        $crystal_words = array();
 
         foreach ($lemma_words as $lemma_word) {
             $word = $lemma_word->text;
@@ -50,6 +76,7 @@ class Controller extends BaseController
 
         foreach ($crystal_words as $crystal_word) {
             if (array_key_exists('gender', $crystal_word)) {
+                $this->model->saveToWhiteList($crystal_word);
                 $this->model->addToDataset($crystal_word);
             }
         }
