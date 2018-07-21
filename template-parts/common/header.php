@@ -11,9 +11,9 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img class="logo" src="/assets/images/crystallio.png" class="img-fluid">
             Crystallio
         </a>

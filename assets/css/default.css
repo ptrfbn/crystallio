@@ -27,10 +27,19 @@ body {
     margin-right: 1rem;
 }
 
-.logo.spin,
-.logo:hover {
+.logo {
     animation-name: logo-spin;
-    animation-duration: 1s;
+    animation-duration: .6s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+}
+
+.logo.spin,
+.navbar-brand:hover .logo {
+    animation-name: logo-spin;
+    animation-duration: 1.2s;
     animation-iteration-count: infinite;
     animation-direction: normal;
     animation-timing-function: ease-in;
