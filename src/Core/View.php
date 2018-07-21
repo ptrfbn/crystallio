@@ -61,6 +61,26 @@ class View
         $this->output .= $html;
     }
 
+    public function renderJson($data)
+    {
+        $this->output .= json_encode(
+            array(
+                'status' => 'success',
+                'data' => $data,
+            )
+        );
+    }
+
+    public function renderJsonError($error_message)
+    {
+        $this->output .= json_encode(
+            array(
+                'status' => 'error',
+                'message' => $error_message,
+            )
+        );
+    }
+
     public function output()
     {
         return $this->output;

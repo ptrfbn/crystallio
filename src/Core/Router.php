@@ -31,6 +31,11 @@ class Router
         self::add('GET', $url, $callback);
     }
 
+    public static function post($url, $callback)
+    {
+        self::add('POST', $url, $callback);
+    }
+
     public static function add($method, $url, $callback)
     {
         self::$routes[$method][] = array(

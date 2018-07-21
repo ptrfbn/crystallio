@@ -1,6 +1,6 @@
 <?php
 
-namespace Templates\Http404;
+namespace Templates\Crystallize;
 
 use Core\Model as BaseModel;
 

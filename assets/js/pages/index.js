@@ -43,7 +43,10 @@ function CrystallizeWords() {
 
     $.ajax({
         url: '/crystallize',
-        data: wordsToTest
+        method: 'post',
+        data: {
+            words: wordsToTest
+        }
     }).done(function () {
         console.log(data);
     });

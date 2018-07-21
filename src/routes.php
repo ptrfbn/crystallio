@@ -10,3 +10,7 @@ Router::get('/', function () {
 Router::get('/404', function () {
     Template::load('Http404');
 });
+
+Router::post('/crystallize', function () {
+    Template::load('Crystallize');
+});
