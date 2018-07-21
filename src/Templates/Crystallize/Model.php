@@ -21,6 +21,6 @@ class Model extends BaseModel
 
     public function addToDataset($word)
     {
-        $this->data[] = $word;
+        $this->data[$word['word']] = $word;
     }
 }

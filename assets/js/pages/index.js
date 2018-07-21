@@ -28,11 +28,26 @@ var crystallizer = function (rawText) {
         }
     });
 
-    CrystallizeWords();
+    crystallizeWords();
 
 }
 
-function CrystallizeWords() {
+function updateCrystalText() {
+    var crystalText = $('#raw-text').html();
+
+    for (word in words) {
+        if (words[word].tested && words[word].hasOwnProperty('gender')) {
+            var gender = words[word].gender;
+            var span = '<span class="c-' + gender + '">' + word + '</span>';
+
+            crystalText = crystalText.replace(new RegExp(word, 'g'), span);
+        }
+    }
+
+    $('#crystallized-text').html(crystalText);
+};
+
+function crystallizeWords() {
     var wordsToTest = [];
 
     for (word in words) {
@@ -41,14 +56,27 @@ function CrystallizeWords() {
         }
     }
 
+    window.dispatchEvent(onAjax);
+
     $.ajax({
         url: '/crystallize',
         method: 'post',
         data: {
             words: wordsToTest
         }
-    }).done(function () {
-        console.log(data);
+    }).done(function (res) {
+        window.dispatchEvent(afterAjax);
+
+        if (res.status === 'success') {
+            wordsToTest.forEach(function (word) {
+                words[word].tested = true;
+                if (res.data.hasOwnProperty(word)) {
+                    words[word].gender = res.data[word].gender;
+                }
+            });
+
+            updateCrystalText();
+        }
     });
 }
 

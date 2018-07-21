@@ -82,3 +82,15 @@ body {
 #crystallized-text {
     z-index: -1;
 }
+
+.c-f {
+    background-color: #ffc7ff;
+}
+
+.c-n {
+    background-color: #ffffd4;
+}
+
+.c-m {
+    background-color: #31d2f7;
+}
