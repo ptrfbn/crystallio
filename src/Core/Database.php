@@ -69,4 +69,37 @@ class Database
 
     }
 
+    public function selectIn($table, $columns = null, $where = null, $order = null, $limit = null)
+    {
+        if (is_array($columns)) {
+            $columns = '`' . implode('`,`', $columns) . '`';
+        } else {
+            $columns = '*';
+        }
+
+        $params = array();
+        if (is_array($where)) {
+            $sql_where = 'WHERE ';
+
+            foreach ($where as $key => $values) {
+                $sql_where .= '`' . $key . '` IN (?' . str_repeat(', ?', count($values) - 1) . ')';
+                $params = array_merge($params, $values);
+            }
+        } else {
+            $sql_where = '';
+        }
+
+        $sql = "
+            SELECT {$columns}
+              FROM {$table}
+             {$sql_where}
+        ";
+
+        $sth = $this->pdo->prepare($sql);
+
+        $sth->execute($params);
+
+        return $sth->fetchAll();
+    }
+
 }

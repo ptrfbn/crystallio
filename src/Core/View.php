@@ -63,6 +63,8 @@ class View
 
     public function renderJson($data)
     {
+        header("Content-type: application/json; charset=utf-8");
+
         $this->output .= json_encode(
             array(
                 'status' => 'success',
@@ -73,6 +75,8 @@ class View
 
     public function renderJsonError($error_message)
     {
+        header("Content-type: application/json; charset=utf-8");
+
         $this->output .= json_encode(
             array(
                 'status' => 'error',

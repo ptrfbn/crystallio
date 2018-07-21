@@ -7,7 +7,7 @@ use Core\Database;
 class Model
 {
     protected $errors = array();
-    protected $data;
+    protected $data = array();
     protected $db;
 
     public function __construct()
