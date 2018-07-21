@@ -1,7 +1,7 @@
 Options -Indexes
 RewriteEngine on
 
-RedirectMatch 403 ^/src/.*$
+RedirectMatch 403 ^/src|env/.*$
 
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteCond %{HTTPS} off
