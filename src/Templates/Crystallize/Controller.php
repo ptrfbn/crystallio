@@ -27,30 +27,48 @@ class Controller extends BaseController
 
         $crystal_words = array();
 
+        // Checking for whitelist/blacklist
+
         foreach ($words as $key => $word) {
-            $result = $this->model->checkWhiteList($word);
+            $result = $this->model->checkWhitelist($word);
             if ($result) {
                 unset($words[$key]);
                 $lemma = $result->lemma;
                 $gender = $result->gender;
 
-                $crystal_words[$lemma] = array(
+                $data = array(
                     'lemma' => $lemma,
                     'word' => $word,
                     'gender' => $gender,
                 );
+                $this->model->addToDataset($data);
+            }
+
+            if ($this->model->checkBlacklist($word)) {
+                unset($words[$key]);
             }
         }
 
         // Using crystal api to get the genders
 
         $crystal = new Crystal();
-        $chunks = array_chunk($words, 2);
+        $chunks = array_chunk($words, 10);
         $lemma_words = array();
 
         foreach ($chunks as $chunk) {
             $new_words = $crystal->getCrystallizedWords($chunk);
             $lemma_words = array_merge($lemma_words, $new_words);
+        }
+
+        $words_to_blacklist = array_values($words);
+
+        foreach ($lemma_words as $lemma_word) {
+            $key = array_search($lemma_word->text, $words_to_blacklist);
+            array_splice($words_to_blacklist, $key, 1);
+        }
+
+        foreach ($words_to_blacklist as $word) {
+            $this->model->saveToBlackList($word);
         }
 
         $lemmas = array();
@@ -78,7 +96,10 @@ class Controller extends BaseController
             if (array_key_exists('gender', $crystal_word)) {
                 $this->model->saveToWhiteList($crystal_word);
                 $this->model->addToDataset($crystal_word);
+            } else {
+                $this->model->saveToBlackList($crystal_word['word']);
             }
         }
+
     }
 }

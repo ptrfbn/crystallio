@@ -22,6 +22,11 @@ var splitterRE = /[A-ZÄÖÜẞ][A-Za-zÄÖÜẞäöüß]{1,50}/gm;
 var crystallizer = function (rawText) {
     newWords = rawText.match(splitterRE);
 
+    if (!newWords.length) {
+        updateCrystalText();
+        return;
+    }
+
     newWords.forEach(function (word) {
         if (!words.hasOwnProperty(word)) {
             words[word] = {
@@ -30,6 +35,8 @@ var crystallizer = function (rawText) {
             }
         }
     });
+
+    updateCrystalText();
 
     if (!ajaxInProgress) {
         crystallizeWords();
@@ -50,6 +57,7 @@ function updateCrystalText() {
     }
 
     $('#crystallized-text').html(crystalText);
+    $('#crystallized-text').scrollTop($('#raw-text').scrollTop());
 };
 
 function crystallizeWords() {
@@ -59,6 +67,10 @@ function crystallizeWords() {
         if (!words[word].tested) {
             wordsToTest.push(word);
         }
+    }
+
+    if (!wordsToTest.length) {
+        return;
     }
 
     window.dispatchEvent(onAjax);
@@ -97,6 +109,7 @@ var crystallizerThrottle = function (rawText) {
 $(function () {
     $('#raw-text').on('DOMSubtreeModified', function () {
         var rawText = $(this).html();
+
         if (['.', '!', '?', ','].indexOf(rawText.slice(-1)) !== -1
             || ['&nbsp;'].indexOf(rawText.slice(-6)) !== -1) {
             clearTimeout(crystallizeTimeout);
@@ -105,6 +118,16 @@ $(function () {
         } else {
             crystallizerThrottle(rawText);
         }
+    });
+
+    $('#raw-text').on('scroll DOMSubtreeModified', function () {
+        $('#crystallized-text').scrollTop($(this).scrollTop());
+    });
+
+    $('#raw-text').on('paste', function (e) {
+        var tempDiv = document.createElement("DIV");
+        tempDiv.innerHTML = $(this).html();
+        $(this).html(tempDiv.innerText);
     });
 
 });

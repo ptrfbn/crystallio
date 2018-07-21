@@ -18,6 +18,10 @@ class Model extends BaseModel
 
     public function getGenders($words)
     {
+        if (empty($words)) {
+            return array();
+        }
+
         return $this->db->selectIn($this->table, $this->columns, array('lemma' => $words));
     }
 
@@ -32,7 +36,16 @@ class Model extends BaseModel
         $this->db->insert($this->whitelist_table, $data);
     }
 
-    public function checkWhiteList($word)
+    public function saveToBlackList($word)
+    {
+        $data = array(
+            'noun' => $word,
+        );
+
+        $this->db->insert($this->blacklist_table, $data);
+    }
+
+    public function checkWhitelist($word)
     {
         $result = $this->db->select(
             $this->whitelist_table,
@@ -41,6 +54,17 @@ class Model extends BaseModel
         );
 
         return !empty($result) ? $result[0] : false;
+    }
+
+    public function checkBlacklist($word)
+    {
+        $result = $this->db->select(
+            $this->blacklist_table,
+            array('noun'),
+            array('noun' => $word)
+        );
+
+        return !empty($result) ? true : false;
     }
 
     public function addToDataset($word)

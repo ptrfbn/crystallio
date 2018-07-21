@@ -66,6 +66,7 @@ body {
     border: 1px solid #d3d3d3;
     border-radius: 10px;
     padding: 1rem;
+    overflow-y: scroll;
 }
 
 #raw-text:focus,
@@ -84,13 +85,16 @@ body {
 }
 
 .c-f {
-    background-color: #ffc7ff;
+    background-color: rgba(255, 199, 255, 0.5);
+    border-radius: 2px;
 }
 
 .c-n {
-    background-color: #ffffd4;
+    background-color: rgb(255, 255, 212);
+    border-radius: 2px;
 }
 
 .c-m {
-    background-color: #31d2f7;
+    background-color: rgba(49, 211, 247, 0.3);
+    border-radius: 2px;
 }
